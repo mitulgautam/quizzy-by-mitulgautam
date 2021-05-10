@@ -2,7 +2,7 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   def setup
-    @user = User.new(first_name: "Sam", last_name: "Smith", email: "sam@example.com", role: "administrator")
+    @user = User.new(first_name: "Sam", last_name: "Smith", email: "sam@example.com", role: "administrator", password: "welcome", password_confirmation: "welcome")
   end
 
   def test_user_should_be_valid
@@ -41,7 +41,7 @@ class UserTest < ActiveSupport::TestCase
 
   def test_email_should_be_unique
     @user.save!
-    @new_user = User.new(first_name: "Sam", last_name: "Curran", email: "sam@example.com")
+    @new_user = User.new(first_name: "Sam", last_name: "Curran", email: "sam@example.com", password: "welcome", password_confirmation: "welcome")
     assert_not @new_user.valid?
     assert_equal ["Email has already been taken"], @new_user.errors.full_messages
   end
@@ -71,7 +71,7 @@ class UserTest < ActiveSupport::TestCase
 
   def test_email_is_case_insensitive
     @user.save!
-    @new_user = User.create(first_name: "Sam", last_name:"Curran", email: "SAM@example.com")
+    @new_user = User.create(first_name: "Sam", last_name:"Curran", email: "SAM@example.com", password: "welcome", password_confirmation: "welcome")
     assert_not @new_user.valid?
     assert_equal ["Email has already been taken"], @new_user.errors.full_messages
   end
@@ -80,5 +80,32 @@ class UserTest < ActiveSupport::TestCase
     @user.role = nil
     assert @user.invalid?
     assert_equal ["Role can't be blank"], @user.errors.full_messages
+  end
+
+  def test_password_should_not_be_blank
+    @user.password = nil
+    assert @user.invalid?
+    assert_equal ["Password can't be blank"], @user.errors.full_messages
+  end
+
+  def test_password_should_have_minimum_length
+    @user.password = "hello"
+    @user.password_confirmation = "hello"
+    assert @user.invalid?
+    assert_equal ["Password is too short (minimum is 6 characters)", "Password confirmation is too short (minimum is 6 characters)"], @user.errors.full_messages
+  end
+
+  def test_password_and_password_confirmation_should_match
+    @user.password = "some_random_password"
+    @user.password_confirmation = "some_random_password"
+    assert @user.valid?
+    assert_equal @user.password, @user.password_confirmation
+  end
+
+  def test_password_and_invalid_password_confirmation_should_match
+    @user.password = "some_random_password"
+    @user.password_confirmation = "some_secret_password"
+    assert @user.invalid?
+    assert_equal ["Password confirmation doesn't match Password", "Password confirmation doesn't match Password"], @user.errors.full_messages
   end
 end
