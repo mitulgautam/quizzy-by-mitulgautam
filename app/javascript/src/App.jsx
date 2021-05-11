@@ -1,16 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import Login from "./Login";
+import { initializeLogger } from "common/logger";
+import { ToastContainer } from "react-toastify";
+import { registerIntercepts, setAuthHeaders } from "apis/axios";
+import PageLoader from "components/PageLoader";
+
 const App = () => {
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
-    /*eslint no-undef: "off"*/
     initializeLogger();
-    logger.info("Log from js-logger");
+    registerIntercepts();
+    // setAuthHeaders(setLoading);
   }, []);
+  if (loading) {
+    return (
+      <div className="h-screen">
+        <PageLoader />
+      </div>
+    );
+  }
   return (
     <Router>
+      <ToastContainer />
       <Switch>
-        <Route exact path="/" render={() => <div>Home</div>} />
-        <Route exact path="/about" render={() => <div>About</div>} />
+        <Route exact path="/" component={Login} />
       </Switch>
     </Router>
   );
