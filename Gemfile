@@ -53,3 +53,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # email validator
 gem 'email_validator'  
+
+# ReactJs
+gem 'react-rails'

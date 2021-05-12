@@ -42,3 +42,4 @@ test/reports
 .vscode
 docker-compose.yaml
 Dockerfile
+.DS_Store
