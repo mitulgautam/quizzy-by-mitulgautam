@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
-import Login from "./Login";
+import Login from "components/Login/Login";
 import { initializeLogger } from "common/logger";
 import { ToastContainer } from "react-toastify";
 import { registerIntercepts, setAuthHeaders } from "apis/axios";

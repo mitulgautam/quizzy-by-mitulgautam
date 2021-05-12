@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       render json: {user: user, notice: "User logged in sucessfully."}, status: :ok
     else
-      render json: {error: ["Invalid email/password. Please check and try again!"]}, status: :unprocessable_entity
+      render json: {error: ["Invalid email/password. Please check and try again!"]}, status: :unauthorized
     end
   end
 

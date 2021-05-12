@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "components/Button";
 import authenticationApi from "apis/authentication";
+import Toastr from "components/Common/Toastr";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -9,13 +10,21 @@ export default function LoginForm() {
 
   const _handleSubmitButton = async e => {
     e.preventDefault();
-    try {
-      setIsLoading(true);
-      await authenticationApi.login({ email, password });
-    } catch (err) {
-      // logger.error(err);
-    } finally {
-      setIsLoading(false);
+    if (email === "" && password === "") {
+      Toastr.error("Email and Password is blank.");
+    } else if (email === "") {
+      Toastr.error("Email is blank");
+    } else if (password === "") {
+      Toastr.error("Password is blank");
+    } else {
+      try {
+        setIsLoading(true);
+        await authenticationApi.login({ email, password });
+      } catch (err) {
+        // logger.error(err);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 

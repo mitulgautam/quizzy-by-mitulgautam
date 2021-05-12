@@ -17,9 +17,9 @@ const handleSuccessResponse = response => {
 };
 
 const handleErrorResponse = error => {
-  if (error.response?.status === 401) {
-    setToLocalStorage({ authToken: null, email: null, userId: null });
-  }
+  // if (error.response?.status === 401) {
+  //   setToLocalStorage({ authToken: null, email: null, userId: null });
+  // }
   Toastr.error(
     error.response?.data?.error ||
       error.response?.data?.notice ||
