@@ -6,4 +6,7 @@ module.exports = {
       components: "src/components",
     },
   },
+  devServer: {
+    historyApiFallback: true
+  }
 };
