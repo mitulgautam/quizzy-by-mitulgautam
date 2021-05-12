@@ -9,9 +9,10 @@ class User < ApplicationRecord
   validates :password_confirmation, on: :create, length: { minimum: 6 }
   before_save :downcase_email
 
-  def downcase_email
-    self.email.downcase!
-  end
+  private
+    def downcase_email
+      self.email.downcase!
+    end
 
   enum role: [:standard, :administrator]
 end
