@@ -56,3 +56,6 @@ gem 'email_validator'
 
 # ReactJs
 gem 'react-rails'
+
+# Serializer
+gem "active_model_serializers", "~> 0.8.0"
