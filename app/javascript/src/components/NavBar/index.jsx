@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavItem from "./NavItem";
+import authenticationApi from "apis/authentication";
+import { useAuthDispatch } from "contexts/auth";
 
 const NavBar = () => {
+  const authDispatch = useAuthDispatch();
+
+  const _handleLogout = async () => {
+    const response = await authenticationApi.logout();
+    if (response.status == 200) {
+      authDispatch({
+        type: "LOGOUT",
+      });
+    }
+  };
+
   return (
     <nav className="bg-white shadow">
       <div className="px-2 mx-auto max-w-7xl sm:px-4 lg:px-8">
@@ -12,6 +25,11 @@ const NavBar = () => {
                 Quizzy
               </div>
             </div>
+          </div>
+          <div className="flex justify-end h-16 pt-8">
+            <NavItem path="#" name="Reports" />
+            <NavItem path="/dashboard" name="Todo :name" />
+            <NavItem path="/logout" name="Logout" onClick={_handleLogout} />
           </div>
         </div>
       </div>

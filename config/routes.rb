@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
 
-  post "/log-in", to: "sessions#create"
-  get  "/logout", to: "sessions#destroy"
-  get  "/user", to: "sessions#current_user"
+  resources :sessions do
+    collection do
+      post "/login" => "sessions#create"
+      get  "/logout" => "sessions#destroy"
+      get  "/user" => "sessions#current_user"
+    end
+  end
 
   root "home#index"
   get '*path', to: 'home#index', via: :all
