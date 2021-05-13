@@ -2,9 +2,13 @@ import React, { useEffect, useState } from "react";
 import NavItem from "./NavItem";
 import authenticationApi from "apis/authentication";
 import { useAuthDispatch } from "contexts/auth";
+import { useUserState } from "contexts/user";
+import { useUserDispatch } from "contexts/user";
 
 const NavBar = () => {
   const authDispatch = useAuthDispatch();
+  const { user } = useUserState();
+  const userDispatch = useUserDispatch();
 
   const _handleLogout = async () => {
     const response = await authenticationApi.logout();
@@ -12,6 +16,7 @@ const NavBar = () => {
       authDispatch({
         type: "LOGOUT",
       });
+      userDispatch({ type: "SET_USER", payload: { user: null } });
     }
   };
 
@@ -27,9 +32,16 @@ const NavBar = () => {
             </div>
           </div>
           <div className="flex justify-end h-16 pt-8">
-            <NavItem path="#" name="Reports" />
-            <NavItem path="/dashboard" name="Todo :name" />
-            <NavItem path="/logout" name="Logout" onClick={_handleLogout} />
+            {user !== null && <NavItem path="#" name="Reports" />}
+            {user !== null && (
+              <NavItem
+                path="/dashboard"
+                name={user["first_name"] + " " + user["last_name"]}
+              />
+            )}
+            {user !== null && (
+              <NavItem path="/logout" name="Logout" onClick={_handleLogout} />
+            )}
           </div>
         </div>
       </div>
