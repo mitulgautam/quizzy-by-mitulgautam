@@ -9,13 +9,17 @@ export const CreateQuiz = () => {
 
   const _handleCreateQuiz = async () => {
     setIsLoading(true);
-    const response = await quizApi.create({ quiz: { name } });
-    if (response.status === 200) {
-      setName("");
+    try {
+      const response = await quizApi.create({ quiz: { name } });
+      if (response.status === 200) {
+        setName("");
+      }
+      window.location.href = "/";
+    } catch (err) {
+      logger.error(err);
+    } finally {
+      setIsLoading(false);
     }
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsLoading(false);
-    window.location.href = "/";
   };
 
   return (
