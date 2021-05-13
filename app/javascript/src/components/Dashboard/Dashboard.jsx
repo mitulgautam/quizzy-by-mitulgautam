@@ -3,14 +3,17 @@ import React from "react";
 import Button from "components/Button";
 
 function Dashboard() {
-  const _handleSubmitButton = (e) => {};
+  const _handleCreateQuiz = () => {
+    window.location.href = "/create-quiz";
+  };
+
   return (
     <div className="flex flex-col">
       <div className="w-32 ml-auto mr-8">
         <Button
           type="button"
           buttonText="Add new quiz"
-          onClick={null}
+          onClick={_handleCreateQuiz}
           loading={false}
         />
       </div>

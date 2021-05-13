@@ -106,6 +106,6 @@ class UserTest < ActiveSupport::TestCase
     @user.password = "some_random_password"
     @user.password_confirmation = "some_secret_password"
     assert @user.invalid?
-    assert_equal ["Password confirmation doesn't match Password", "Password confirmation doesn't match Password"], @user.errors.full_messages
+    assert_equal ["Password confirmation doesn't match Password"], @user.errors.full_messages
   end
 end

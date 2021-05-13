@@ -11,18 +11,33 @@ import NavBar from "components/NavBar";
 import PrivateRoute from "components/Common/PrivateRoute";
 import { useAuthDispatch, useAuthState } from "contexts/auth";
 import { either, isEmpty, isNil } from "ramda";
+import { CreateQuiz } from "./Quiz/CreateQuiz";
+import authenticationApi from "apis/authentication";
+import { useUserDispatch } from "contexts/user";
+import { useUserState } from "contexts/user";
 
-// import { UserProvider } from "contexts/user";
 const Main = (props) => {
   const [loading, setLoading] = useState(true);
   const { authEmail } = useAuthState();
   const authDispatch = useAuthDispatch();
-  const isLoggedIn = !either(isNil, isEmpty)(authEmail);
+  const userDispatch = useUserDispatch();
 
-  useEffect(() => {
+  const isLoggedIn = !either(isNil, isEmpty)(authEmail);
+  const { user } = useUserState();
+
+  useEffect(async () => {
     initializeLogger();
     setAuthHeaders(setLoading);
     registerIntercepts(authDispatch);
+
+    try {
+      if (JSON.parse(localStorage.getItem("authEmail")) !== null) {
+        const { data } = await authenticationApi.show();
+        userDispatch({ type: "SET_USER", payload: { user: data } });
+      }
+    } catch (err) {
+      logger.error(err);
+    }
   }, []);
 
   if (loading) {
@@ -41,6 +56,7 @@ const Main = (props) => {
       <ToastContainer />
       <Switch>
         <Route exact path="/login" component={Login} />
+        <Route exact path="/create-quiz" component={CreateQuiz} />
         {isLoggedIn && <Route exact path="/" component={Dashboard} />}
         <PrivateRoute
           path="/"

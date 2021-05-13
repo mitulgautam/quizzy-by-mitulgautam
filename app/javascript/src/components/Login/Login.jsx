@@ -4,7 +4,7 @@ import Button from "components/Button";
 import authenticationApi from "apis/authentication";
 import Toastr from "components/Common/Toastr";
 import { useAuthDispatch } from "contexts/auth";
-import { Redirect } from "react-router";
+import { useUserDispatch } from "contexts/user";
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState("");
@@ -12,6 +12,7 @@ const Login = ({ history }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const authDispatch = useAuthDispatch();
+  const userDispatch = useUserDispatch();
 
   const _handleSubmitButton = async (e) => {
     e.preventDefault();
@@ -34,6 +35,11 @@ const Login = ({ history }) => {
           type: "LOGIN",
           payload: { email, role: user["email"] },
         });
+        userDispatch({
+          type: "SET_USER",
+          payload: { user },
+        });
+
         history.push("/");
       } catch (err) {
         logger.error(err);
