@@ -11,6 +11,7 @@ import NavBar from "components/NavBar";
 import PrivateRoute from "components/Common/PrivateRoute";
 import { useAuthDispatch, useAuthState } from "contexts/auth";
 import { either, isEmpty, isNil } from "ramda";
+import { CreateQuiz } from "./Quiz/CreateQuiz";
 
 // import { UserProvider } from "contexts/user";
 const Main = (props) => {
@@ -41,6 +42,7 @@ const Main = (props) => {
       <ToastContainer />
       <Switch>
         <Route exact path="/login" component={Login} />
+        <Route exact path="/create-quiz" component={CreateQuiz} />
         {isLoggedIn && <Route exact path="/" component={Dashboard} />}
         <PrivateRoute
           path="/"
