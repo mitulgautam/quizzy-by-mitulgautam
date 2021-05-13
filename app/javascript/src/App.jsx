@@ -1,33 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
-import Login from "components/Login/Login";
-import { initializeLogger } from "common/logger";
-import { ToastContainer } from "react-toastify";
-import { registerIntercepts, setAuthHeaders } from "apis/axios";
-import PageLoader from "components/PageLoader";
+/* eslint-disable arrow-parens */
+import React from "react";
 
-const App = () => {
-  const [loading, setLoading] = useState(false);
+import Main from "components/Main";
 
-  useEffect(() => {
-    initializeLogger();
-    registerIntercepts();
-    // setAuthHeaders(setLoading);
-  }, []);
-  if (loading) {
-    return (
-      <div className="h-screen">
-        <PageLoader />
-      </div>
-    );
-  }
+import { AuthProvider } from "contexts/auth";
+
+const App = (props) => {
   return (
-    <Router>
-      <ToastContainer />
-      <Switch>
-        <Route exact path="/" component={Login} />
-      </Switch>
-    </Router>
+    <AuthProvider>
+      <Main {...props} />
+    </AuthProvider>
   );
 };
 
