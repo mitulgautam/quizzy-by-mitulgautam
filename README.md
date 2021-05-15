@@ -1,8 +1,8 @@
 # README
 
-[![CircleCI](https://circleci.com/gh/circleci/circleci-docs.svg?style=svg)](https://circleci.com/gh/circleci/circleci-docs)
+[![Heroku](https://heroku-badge.herokuapp.com/?app=afternoon-garden-20820)](https://afternoon-garden-20820.herokuapp.com/)
 
-[![CircleCI](https://heroku-badge.herokuapp.com/?app=afternoon-garden-20820)](https://afternoon-garden-20820.herokuapp.com/)
+[![CircleCI](https://circleci.com/gh/circleci/circleci-docs.svg?style=svg)](https://circleci.com/gh/circleci/circleci-docs)
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
