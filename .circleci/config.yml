@@ -1,8 +1,6 @@
 version: 2.1
 jobs:
   build:
-    machine:
-      docker_layer_caching: true
     #No. of servers/machines
     parallelism: 1
 
