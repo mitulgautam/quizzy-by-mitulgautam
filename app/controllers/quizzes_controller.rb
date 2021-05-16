@@ -21,7 +21,8 @@ class QuizzesController < ApplicationController
 
   def destroy
       @quiz.destroy
-      render json: {notice: "Quiz has been deleted sucessfully"}, status: :ok
+      @quizzes = @current_user.quizzes.select(:id, :name)
+      render json: {quizzes: @quizzes, notice: "Quiz has been deleted sucessfully"}, status: :ok
   end
 
   def update
