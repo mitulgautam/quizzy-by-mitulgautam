@@ -1,22 +1,24 @@
 /* eslint-disable arrow-parens */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "components/Button";
 import quizApi from "apis/quiz";
+import PageLoader from "components/PageLoader";
 import { useHistory } from "react-router-dom";
 
-export const CreateQuiz = () => {
+export const UpdateQuiz = ({ match }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
+  const id = match.params.id;
   const history = useHistory();
 
-  const _handleCreateQuiz = async () => {
+  const _handleUpdateQuiz = async () => {
     setIsLoading(true);
     try {
-      const response = await quizApi.create({ quiz: { name } });
+      const response = await quizApi.update(id, { quiz: { name } });
       if (response.status === 200) {
         setName("");
-        history.push("/");
       }
+      history.push("/");
     } catch (err) {
       logger.error(err);
     } finally {
@@ -24,9 +26,31 @@ export const CreateQuiz = () => {
     }
   };
 
+  useEffect(async () => {
+    try {
+      const {
+        data: {
+          quiz: { name },
+        },
+      } = await quizApi.show(id);
+      setName(name);
+    } catch (err) {
+      logger.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="h-screen">
+        <PageLoader />
+      </div>
+    );
+  }
   return (
     <div className="m-16">
-      <div className="text-2xl font-bold text-gray-700">Add new Quiz</div>
+      <div className="text-2xl font-bold text-gray-700">Update Quiz</div>
       <div className="flex flex-row p-4">
         <label htmlFor="quiz-name" className="pt-2 text-xl text-gray-500">
           Name
@@ -46,8 +70,8 @@ export const CreateQuiz = () => {
           </div>
           <div className="w-24">
             <Button
-              buttonText="Create"
-              onClick={_handleCreateQuiz}
+              buttonText="Update"
+              onClick={_handleUpdateQuiz}
               loading={isLoading}
             />
           </div>

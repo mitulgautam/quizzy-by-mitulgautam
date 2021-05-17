@@ -1,6 +1,6 @@
 /* eslint-disable arrow-parens */
 import React, { useEffect, useState } from "react";
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import { Route, Switch, BrowserRouter } from "react-router-dom";
 import Login from "components/Login/Login";
 import { initializeLogger } from "common/logger";
 import { ToastContainer } from "react-toastify";
@@ -15,6 +15,8 @@ import { CreateQuiz } from "./Quiz/CreateQuiz";
 import authenticationApi from "apis/authentication";
 import { useUserDispatch } from "contexts/user";
 import { useUserState } from "contexts/user";
+import { UpdateQuiz } from "./Quiz/UpdateQuiz";
+import history from "common/history";
 
 const Main = (props) => {
   const [loading, setLoading] = useState(true);
@@ -37,6 +39,8 @@ const Main = (props) => {
       }
     } catch (err) {
       logger.error(err);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -49,7 +53,7 @@ const Main = (props) => {
   }
 
   return (
-    <Router>
+    <BrowserRouter history={history}>
       <section>
         <NavBar />
       </section>
@@ -57,6 +61,7 @@ const Main = (props) => {
       <Switch>
         <Route exact path="/login" component={Login} />
         <Route exact path="/create-quiz" component={CreateQuiz} />
+        <Route exact path="/update-quiz/:id" component={UpdateQuiz} />
         {isLoggedIn && <Route exact path="/" component={Dashboard} />}
         <PrivateRoute
           path="/"
@@ -65,7 +70,7 @@ const Main = (props) => {
           component={Dashboard}
         />
       </Switch>
-    </Router>
+    </BrowserRouter>
   );
 };
 

@@ -5,12 +5,15 @@ import Main from "./components/Main";
 
 import { AuthProvider } from "contexts/auth";
 import { UserProvider } from "contexts/user";
+import { QuizProvider } from "contexts/quiz";
 
 const App = (props) => {
   return (
     <AuthProvider>
       <UserProvider>
-        <Main {...props} />
+        <QuizProvider>
+          <Main {...props} />
+        </QuizProvider>
       </UserProvider>
     </AuthProvider>
   );
