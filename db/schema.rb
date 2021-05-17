@@ -10,10 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_15_084120) do
+ActiveRecord::Schema.define(version: 2021_05_17_084405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "options", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "question_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["question_id"], name: "index_options_on_question_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "quiz_id", null: false
+    t.integer "correct_option", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["quiz_id"], name: "index_questions_on_quiz_id"
+  end
 
   create_table "quizzes", force: :cascade do |t|
     t.string "name", null: false
@@ -34,5 +51,7 @@ ActiveRecord::Schema.define(version: 2021_05_15_084120) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "options", "questions"
+  add_foreign_key "questions", "quizzes"
   add_foreign_key "quizzes", "users"
 end
