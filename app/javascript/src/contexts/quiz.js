@@ -6,6 +6,7 @@ const QuizDispatchContext = React.createContext();
 
 const intialState = {
   quizzes: [],
+  selectedQuiz: {},
 };
 
 const QuizProvider = ({ children }) => {

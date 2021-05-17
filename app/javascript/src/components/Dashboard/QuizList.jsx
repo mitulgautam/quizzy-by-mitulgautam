@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { tableColumns } from "./columns";
 import { useTable } from "react-table";
 import quizApi from "apis/quiz";
+import { useHistory } from "react-router-dom";
+
 const QuizList = ({
   quizzes,
   modalIsOpen,
@@ -14,6 +16,7 @@ const QuizList = ({
   const tableInstance = useTable({ columns, data });
   const { getTableBodyProps, getTableProps, headerGroups, rows, prepareRow } =
     tableInstance;
+  const history = useHistory();
 
   const _handleDeleteQuiz = (row) => {
     setSelectedQuizID(row.original.id);
@@ -54,7 +57,14 @@ const QuizList = ({
                                 {cell.render("Cell")}
                               </div>
                               <div className="pl-4">
-                                <button className=" hover:bg-gray-200 text-blue-800 font-medium py-2 px-4 rounded inline-flex items-center">
+                                <button
+                                  onClick={() => {
+                                    history.push(
+                                      `/update-quiz/${row.original.id}`
+                                    );
+                                  }}
+                                  className=" hover:bg-gray-200 text-blue-800 font-medium py-2 px-4 rounded inline-flex items-center"
+                                >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     className="h-6 w-6"
