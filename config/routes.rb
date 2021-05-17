@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   end
 
   resources :quizzes
+  resources :questions
 
   root "home#index"
   get '*path', to: 'home#index', via: :all
