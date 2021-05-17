@@ -16,7 +16,7 @@ class QuizzesController < ApplicationController
   end
 
   def show
-    render json: @quiz, status: :ok
+    render json: @quiz, status: :ok, serializer: QuizQuestionSerializer
   end
 
   def destroy
