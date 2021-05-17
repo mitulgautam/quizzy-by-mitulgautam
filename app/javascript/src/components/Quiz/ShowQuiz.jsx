@@ -14,10 +14,10 @@ const ShowQuiz = ({ match }) => {
   useEffect(async () => {
     try {
       const {
-        data: { quiz },
+        data: { quiz_question },
       } = await quizApi.show(id);
-      setName(quiz.name);
-      setQuestions(quiz.questions);
+      setName(quiz_question.name);
+      setQuestions(quiz_question.questions);
     } catch (err) {
       logger.error(err);
     } finally {
