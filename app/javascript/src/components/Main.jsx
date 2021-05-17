@@ -17,6 +17,7 @@ import { useUserDispatch } from "contexts/user";
 import { useUserState } from "contexts/user";
 import { UpdateQuiz } from "./Quiz/UpdateQuiz";
 import history from "common/history";
+import ShowQuiz from "./Quiz/ShowQuiz";
 
 const Main = (props) => {
   const [loading, setLoading] = useState(true);
@@ -62,6 +63,7 @@ const Main = (props) => {
         <Route exact path="/login" component={Login} />
         <Route exact path="/create-quiz" component={CreateQuiz} />
         <Route exact path="/update-quiz/:id" component={UpdateQuiz} />
+        <Route exact path="/quiz/:id" component={ShowQuiz} />
         {isLoggedIn && <Route exact path="/" component={Dashboard} />}
         <PrivateRoute
           path="/"
