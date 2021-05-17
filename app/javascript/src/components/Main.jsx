@@ -64,12 +64,12 @@ const Main = (props) => {
         <Route exact path="/login" component={Login} />
         <Route exact path="/create-quiz" component={CreateQuiz} />
         <Route exact path="/update-quiz/:id" component={UpdateQuiz} />
-        <Route exact path="/quiz/:id" component={ShowQuiz} />
         <Route
           exact
           path="/quiz/:id/create-question"
           component={CreateQuestion}
         />
+        <Route exact path="/quiz/:id" component={ShowQuiz} />
         {isLoggedIn && <Route exact path="/" component={Dashboard} />}
         <PrivateRoute
           path="/"
