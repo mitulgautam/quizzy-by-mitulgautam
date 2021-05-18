@@ -3,6 +3,6 @@ class QuestionSerializer < ActiveModel::Serializer
   # has_many :options
 
   def options
-    self.object.options
+    self.object.options.select(:id, :name)
   end
 end
