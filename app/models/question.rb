@@ -5,7 +5,7 @@ class Question < ApplicationRecord
   validate :validates_options
   validates :name, presence: true
   validates :options, presence: true
-  validates :correct_option, presence: true
+  validates :correct_option, presence: true, allow_blank: false
   
   private
   def validates_options

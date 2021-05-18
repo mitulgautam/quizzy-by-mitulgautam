@@ -33,6 +33,22 @@ const ShowQuiz = ({ match }) => {
     }
   }, []);
 
+  const handleDelete = async () => {
+    try {
+      setIsDelete(true);
+      await questionApi.destroy(deleteQuestionID);
+      setQuestions(
+        questions.filter((question) => question.id !== deleteQuestionID)
+      );
+      setIsDelete(false);
+      setDeleteQuestionID("");
+    } catch (e) {
+      logger.error(e);
+    } finally {
+      setIsDelete(false);
+      setModalIsOpen(false);
+    }
+  };
   if (isLoading) {
     return (
       <div className="h-screen">
@@ -43,7 +59,44 @@ const ShowQuiz = ({ match }) => {
 
   return (
     <div className="flex flex-col p-8">
-      <div className="w-36 ml-auto">
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        ariaHideApp={false}
+        className="w-min h-min"
+      >
+        <div className="relative px-4 min-h-screen md:flex md:items-center md:justify-center">
+          <div className="bg-black opacity-25 w-full h-full absolute z-10 inset-0"></div>
+          <div className="bg-white rounded-lg md:max-w-md md:mx-auto p-4 fixed inset-x-0 bottom-0 z-50 mb-4 mx-4 md:relative">
+            <div className="md:flex items-center">
+              <div className="mt-4 md:mt-0 md:ml-6 text-center md:text-left">
+                <p className="font-bold">
+                  Are you sure you want to delete question?
+                </p>
+              </div>
+            </div>
+            <div className="text-center md:text-right mt-4 md:flex md:justify-end">
+              <button
+                disabled={isDelete}
+                onClick={handleDelete}
+                className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-red-200 text-red-700 rounded-lg font-semibold text-sm md:ml-2 md:order-2"
+              >
+                {isDelete ? <div>Deleting</div> : <div>Delete</div>}
+              </button>
+              {!isDelete && (
+                <button
+                  className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-gray-200 rounded-lg font-semibold text-sm mt-4
+          md:mt-0 md:order-1"
+                  onClick={() => setModalIsOpen(false)}
+                >
+                  Cancel
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </Modal>
+      <div className="w-36 ml-auto flex flex-row">
         <Button
           type="button"
           buttonText="Add new question"
@@ -52,6 +105,16 @@ const ShowQuiz = ({ match }) => {
           }}
           loading={false}
         />
+        {questions.length > 0 && (
+          <div className="ml-2">
+            <Button
+              type="button"
+              buttonText="Publish"
+              onClick={() => {}}
+              loading={false}
+            />
+          </div>
+        )}
       </div>
       <div className="text-2xl font-medium text-gray-700">{name}</div>
       {questions.length === 0 ? (
@@ -63,17 +126,23 @@ const ShowQuiz = ({ match }) => {
           {questions.map((question, i) => (
             <div key={question.id} className="p-4">
               <div className="flex flex-row">
-                <div className="text-lg font-bold">
+                <div className="text-lg font-bold w-4/5">
                   {i + 1 + ". " + question.name}
                 </div>
-                <button className="outline-none focus:outline-none focus:ring px-2 py-1 border-blue-500 border-2 text-blue-500 ml-16">
+                <button
+                  onClick={() => {
+                    history.push(`/quiz/${id}/update-question/${question.id}`);
+                  }}
+                  className="outline-none focus:outline-none focus:ring px-2 py-1 border-blue-500 border-2 text-blue-500 ml-16 h-12"
+                >
                   Edit
                 </button>
                 <button
                   onClick={() => {
-                    null;
+                    setDeleteQuestionID(question.id);
+                    setModalIsOpen(true);
                   }}
-                  className="outline-none focus:outline-none focus:ring px-2 py-1 border-red-500 border-2 text-red-500 ml-8"
+                  className="outline-none focus:outline-none focus:ring px-2 py-1 border-red-500 border-2 text-red-500 ml-4 h-12"
                 >
                   Delete
                 </button>
