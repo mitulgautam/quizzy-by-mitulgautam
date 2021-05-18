@@ -96,7 +96,7 @@ const ShowQuiz = ({ match }) => {
           </div>
         </div>
       </Modal>
-      <div className="w-36 ml-auto">
+      <div className="w-36 ml-auto flex flex-row">
         <Button
           type="button"
           buttonText="Add new question"
@@ -105,6 +105,16 @@ const ShowQuiz = ({ match }) => {
           }}
           loading={false}
         />
+        {questions.length > 0 && (
+          <div className="ml-2">
+            <Button
+              type="button"
+              buttonText="Publish"
+              onClick={() => {}}
+              loading={false}
+            />
+          </div>
+        )}
       </div>
       <div className="text-2xl font-medium text-gray-700">{name}</div>
       {questions.length === 0 ? (
