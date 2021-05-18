@@ -30,7 +30,7 @@ export const UpdateQuiz = ({ match }) => {
     try {
       const {
         data: {
-          quiz: { name },
+          quiz_question: { name },
         },
       } = await quizApi.show(id);
       setName(name);
