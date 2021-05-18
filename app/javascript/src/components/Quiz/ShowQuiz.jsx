@@ -116,10 +116,15 @@ const ShowQuiz = ({ match }) => {
           {questions.map((question, i) => (
             <div key={question.id} className="p-4">
               <div className="flex flex-row">
-                <div className="text-lg font-bold">
+                <div className="text-lg font-bold w-4/5">
                   {i + 1 + ". " + question.name}
                 </div>
-                <button className="outline-none focus:outline-none focus:ring px-2 py-1 border-blue-500 border-2 text-blue-500 ml-16">
+                <button
+                  onClick={() => {
+                    history.push(`/quiz/${id}/update-question/${question.id}`);
+                  }}
+                  className="outline-none focus:outline-none focus:ring px-2 py-1 border-blue-500 border-2 text-blue-500 ml-16 h-12"
+                >
                   Edit
                 </button>
                 <button
@@ -127,7 +132,7 @@ const ShowQuiz = ({ match }) => {
                     setDeleteQuestionID(question.id);
                     setModalIsOpen(true);
                   }}
-                  className="outline-none focus:outline-none focus:ring px-2 py-1 border-red-500 border-2 text-red-500 ml-8"
+                  className="outline-none focus:outline-none focus:ring px-2 py-1 border-red-500 border-2 text-red-500 ml-4 h-12"
                 >
                   Delete
                 </button>

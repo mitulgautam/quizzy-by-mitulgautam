@@ -19,6 +19,7 @@ import { UpdateQuiz } from "./Quiz/UpdateQuiz";
 import history from "common/history";
 import ShowQuiz from "./Quiz/ShowQuiz";
 import CreateQuestion from "./Question/CreateQuestion";
+import UpdateQuestion from "./Question/UpdateQuestion";
 
 const Main = (props) => {
   const [loading, setLoading] = useState(true);
@@ -68,6 +69,11 @@ const Main = (props) => {
           exact
           path="/quiz/:id/create-question"
           component={CreateQuestion}
+        />
+        <Route
+          exact
+          path="/quiz/:quiz_id/update-question/:id"
+          component={UpdateQuestion}
         />
         <Route exact path="/quiz/:id" component={ShowQuiz} />
         {isLoggedIn && <Route exact path="/" component={Dashboard} />}

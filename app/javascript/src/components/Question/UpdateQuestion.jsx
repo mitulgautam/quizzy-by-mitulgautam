@@ -2,19 +2,17 @@
 import React, { useEffect, useState } from "react";
 import PageLoader from "components/PageLoader";
 import { useHistory } from "react-router-dom";
-import quizApi from "apis/quiz";
 import questionApi from "apis/question";
 import Button from "components/Button";
+import quizApi from "apis/quiz";
 
-const CreateQuestion = ({ match }) => {
+const UpdateQuestion = ({ match }) => {
   const id = match.params.id;
+  const quizId = match.params.quiz_id;
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(true);
   const [name, setName] = useState("");
-  const [options, setOptions] = useState([
-    { id: "first", name: "" },
-    { id: "second", name: "" },
-  ]);
+  const [options, setOptions] = useState([]);
   const [question, setQuestion] = useState("");
   const [correctOption, setCorrectOption] = useState("");
 
@@ -22,8 +20,14 @@ const CreateQuestion = ({ match }) => {
     try {
       const {
         data: { quiz_question },
-      } = await quizApi.show(id);
+      } = await quizApi.show(quizId);
       setName(quiz_question.name);
+      const filterQuestion = quiz_question.questions.filter(
+        (question) => question.id.toString() === id
+      );
+      setQuestion(filterQuestion[0].name);
+      setOptions(filterQuestion[0].options);
+      setCorrectOption(filterQuestion[0].correct_option);
     } catch (err) {
       logger.error(err);
     } finally {
@@ -31,22 +35,20 @@ const CreateQuestion = ({ match }) => {
     }
   }, []);
 
-  const handleCreateQuestion = async () => {
+  const handleUpdateQuestion = async () => {
     const data = {
       question: {
         name: question,
-        options_attributes: [{ name: option1 }, { name: option2 }],
+        options_attributes: options,
         correct_option: correctOption,
       },
-      quiz_id: id,
     };
 
-    if (showOption3) data.question.options_attributes.push({ name: option3 });
-    if (showOption4) data.question.options_attributes.push({ name: option4 });
-
     try {
-      const response = await questionApi.create(data);
-      if (response.status === 200) history.push(`/quiz/${id}`);
+      const response = await questionApi.update(id, data);
+      if (response.status == 200) {
+        history.push(`/quiz/${quizId}`);
+      }
     } catch (err) {
       logger.error(err);
     }
@@ -175,8 +177,8 @@ const CreateQuestion = ({ match }) => {
       </div>
       <div className="w-48 mx-40 p-1">
         <Button
-          buttonText="Create Question"
-          onClick={handleCreateQuestion}
+          buttonText="Update Question"
+          onClick={handleUpdateQuestion}
           loading={isLoading}
         />
       </div>
@@ -184,4 +186,4 @@ const CreateQuestion = ({ match }) => {
   );
 };
 
-export default CreateQuestion;
+export default UpdateQuestion;
