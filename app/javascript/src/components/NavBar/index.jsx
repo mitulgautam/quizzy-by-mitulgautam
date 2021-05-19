@@ -26,9 +26,12 @@ const NavBar = () => {
         <div className="flex justify-between h-16">
           <div className="flex px-2 lg:px-0">
             <div className="hidden lg:flex">
-              <div className="inline-flex items-center px-1 pt-1 mr-3 font-semibold text-3xl leading-5 text-purple-500 hover:text-indigo-500">
+              <a
+                href="/"
+                className="inline-flex items-center px-1 pt-1 mr-3 font-semibold text-3xl leading-5 text-purple-500 hover:text-indigo-500"
+              >
                 Quizzy
-              </div>
+              </a>
             </div>
           </div>
           <div className="flex justify-end h-16 pt-8">
