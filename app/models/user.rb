@@ -16,4 +16,5 @@ class User < ApplicationRecord
 
   enum role: [:standard, :administrator]
   has_many :quizzes
+  has_many :attempts
 end
