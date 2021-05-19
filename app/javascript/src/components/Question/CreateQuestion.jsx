@@ -35,14 +35,11 @@ const CreateQuestion = ({ match }) => {
     const data = {
       question: {
         name: question,
-        options_attributes: [{ name: option1 }, { name: option2 }],
+        options_attributes: options,
         correct_option: correctOption,
       },
       quiz_id: id,
     };
-
-    if (showOption3) data.question.options_attributes.push({ name: option3 });
-    if (showOption4) data.question.options_attributes.push({ name: option4 });
 
     try {
       const response = await questionApi.create(data);

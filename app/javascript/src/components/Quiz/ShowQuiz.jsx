@@ -16,6 +16,9 @@ const ShowQuiz = ({ match }) => {
   const [isDelete, setIsDelete] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [deleteQuestionID, setDeleteQuestionID] = useState("");
+  const [isPublished, setIsPublished] = useState(true);
+  const [slug, setSlug] = useState("");
+  const [publishedUrl, setPublishedUrl] = useState("");
 
   useEffect(async () => {
     try {
@@ -24,8 +27,15 @@ const ShowQuiz = ({ match }) => {
       } = await quizApi.show(id);
       setName(quiz_question.name);
       setQuestions(quiz_question.questions);
-      // eslint-disable-next-line no-console
-      console.log(quiz_question.questions);
+      setIsPublished(quiz_question.status.toString() === "published");
+      setSlug(quiz_question.slug);
+      setPublishedUrl(
+        new URL(window.location.href).protocol +
+          "//" +
+          new URL(window.location.href).host +
+          "/public/" +
+          quiz_question.slug
+      );
     } catch (err) {
       logger.error(err);
     } finally {
@@ -49,6 +59,18 @@ const ShowQuiz = ({ match }) => {
       setModalIsOpen(false);
     }
   };
+
+  const handlePublish = async () => {
+    try {
+      const response = await quizApi.update(id, {
+        quiz: { status: "published" },
+      });
+      if (response.status === 200) setIsPublished(true);
+    } catch (e) {
+      logger.error(e);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="h-screen">
@@ -96,27 +118,45 @@ const ShowQuiz = ({ match }) => {
           </div>
         </div>
       </Modal>
-      <div className="w-36 ml-auto flex flex-row">
-        <Button
-          type="button"
-          buttonText="Add new question"
-          onClick={() => {
-            history.push(`/quiz/${id}/create-question`);
-          }}
-          loading={false}
-        />
-        {questions.length > 0 && (
+      <div className="w-36 flex flex-row">
+        <div className="w-auto">
+          {isPublished && (
+            <a
+              href={publishedUrl}
+              target="_blank"
+              className="text-blue-500 flex flex-row"
+              rel="noreferrer"
+            >
+              <div className="text-gray-500">
+                {"Published, Your public link is - "}
+              </div>
+              {publishedUrl}
+            </a>
+          )}
+        </div>
+        <div className="ml-auto">
+          <Button
+            type="button"
+            buttonText="Add new question"
+            onClick={() => {
+              history.push(`/quiz/${id}/create-question`);
+            }}
+            loading={false}
+          />
+        </div>
+        {questions.length > 0 && !isPublished && (
           <div className="ml-2">
             <Button
               type="button"
               buttonText="Publish"
-              onClick={() => {}}
+              onClick={handlePublish}
               loading={false}
             />
           </div>
         )}
       </div>
       <div className="text-2xl font-medium text-gray-700">{name}</div>
+
       {questions.length === 0 ? (
         <div className="mx-auto my-64 text-gray-500">
           There are no quiz in this solar system.
