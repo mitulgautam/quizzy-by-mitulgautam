@@ -1,5 +1,6 @@
 import axios from "axios";
 import Toastr from "components/Common/Toastr";
+import { useHistory } from "react-router-dom";
 
 axios.defaults.headers = {
   Accept: "application/json",
@@ -17,9 +18,9 @@ const handleSuccessResponse = response => {
 };
 
 const handleErrorResponse = error => {
-  // if (error.response?.status === 401) {
-  //   setToLocalStorage({ authToken: null, email: null, userId: null });
-  // }
+  if (error.response?.status === 401) {
+    window.location.href = "/";
+  }
   Toastr.error(
     error.response?.data?.error ||
       error.response?.data?.notice ||

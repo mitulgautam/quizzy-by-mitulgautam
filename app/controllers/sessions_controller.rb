@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  skip_before_action :authenticate_user, only: [:new, :create]
+
   def new
   end
 
@@ -22,7 +24,8 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    session[:user_id] = nil
+    session.delete(:user_id)
+    @current_user = nil
     render json: {"notice": "User logged out successfully."}, status: :ok
   end
 end
