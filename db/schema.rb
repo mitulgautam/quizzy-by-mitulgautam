@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2021_05_19_065745) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "status", default: 0, null: false
-    t.string "slug", null: false
+    t.string "slug"
     t.index ["slug"], name: "index_quizzes_on_slug"
     t.index ["user_id"], name: "index_quizzes_on_user_id"
   end
