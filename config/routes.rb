@@ -10,7 +10,13 @@ Rails.application.routes.draw do
 
   resources :quizzes
   resources :questions
-  resources :public do
+
+  namespace :api do
+    resources :public do
+      collection do
+        post '/init' => "public#create_attempt"
+      end
+    end
   end
 
   root "home#index"
