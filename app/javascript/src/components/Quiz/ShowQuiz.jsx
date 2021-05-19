@@ -17,7 +17,6 @@ const ShowQuiz = ({ match }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [deleteQuestionID, setDeleteQuestionID] = useState("");
   const [isPublished, setIsPublished] = useState(true);
-  const [slug, setSlug] = useState("");
   const [publishedUrl, setPublishedUrl] = useState("");
 
   useEffect(async () => {
@@ -28,7 +27,6 @@ const ShowQuiz = ({ match }) => {
       setName(quiz_question.name);
       setQuestions(quiz_question.questions);
       setIsPublished(quiz_question.status.toString() === "published");
-      setSlug(quiz_question.slug);
       setPublishedUrl(
         new URL(window.location.href).protocol +
           "//" +
@@ -65,7 +63,16 @@ const ShowQuiz = ({ match }) => {
       const response = await quizApi.update(id, {
         quiz: { status: "published" },
       });
-      if (response.status === 200) setIsPublished(true);
+      if (response.status === 200) {
+        setIsPublished(true);
+        setPublishedUrl(
+          new URL(window.location.href).protocol +
+            "//" +
+            new URL(window.location.href).host +
+            "/public/" +
+            response.data.quiz.slug
+        );
+      }
     } catch (e) {
       logger.error(e);
     }

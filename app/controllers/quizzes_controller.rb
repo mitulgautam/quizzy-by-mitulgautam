@@ -27,7 +27,7 @@ class QuizzesController < ApplicationController
 
   def update
     @quiz.update(permitted_params)
-    render json: {notice: "Quiz has been updated sucessfully"}, status: :ok
+    render json: {notice: "Quiz has been updated sucessfully", quiz: @quiz}, status: :ok
   end
 
   private
