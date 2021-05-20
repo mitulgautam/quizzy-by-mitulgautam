@@ -14,7 +14,9 @@ Rails.application.routes.draw do
   namespace :api do
     resources :public do
       collection do
-        post '/init' => "public#create_attempt"
+        post '/' => "public#create"
+        put '/:id' => "public#update"
+        get '/result/:id' => "public#result"
       end
     end
   end

@@ -4,6 +4,7 @@ import { Route, Switch, BrowserRouter } from "react-router-dom";
 import attemptApi from "apis/attempt";
 import PageLoader from "components/PageLoader";
 import Button from "components/Button";
+import { useHistory } from "react-router-dom";
 
 const AttemptQuiz = ({ match }) => {
   const [loading, setLoading] = useState(true);
@@ -11,8 +12,10 @@ const AttemptQuiz = ({ match }) => {
   const [firstName, setfirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const history = useHistory();
 
   useEffect(async () => {
+    history.location.state = undefined;
     try {
       const {
         data: { quiz_question },
@@ -31,11 +34,21 @@ const AttemptQuiz = ({ match }) => {
       last_name: lastName,
       email: email,
     };
-    const { data, state } = await attemptApi.createAttempt({
-      user,
-      id: match.params.id,
-    });
-    logger.info(state);
+    try {
+      const { data, state } = await attemptApi.createAttempt({
+        user,
+        id: match.params.id,
+      });
+      // replace will remove extra / from url
+      history.push(
+        (match.url + "/play").replace(/([^:]\/)\/+/g, "$1"),
+        data.attempt
+      );
+    } catch (e) {
+      logger.error(e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (loading) {

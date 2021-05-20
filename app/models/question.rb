@@ -6,7 +6,8 @@ class Question < ApplicationRecord
   validates :name, presence: true
   validates :options, presence: true
   validates :correct_option, presence: true, allow_blank: false
-  
+  has_many :attempt_answers
+
   private
   def validates_options
     if self.options.length > 4

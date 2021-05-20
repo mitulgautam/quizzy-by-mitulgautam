@@ -1,19 +1,36 @@
 class Api::PublicController < ApplicationController
-  before_action :set_quiz
-  before_action :published_status
-  before_action :set_standard_user, only: [:create_attempt]
+  before_action :set_quiz, only: [:create, :show]
+  before_action :published_status, except: [:update, :result]
+  before_action :set_standard_user, only: [:create]
+  skip_before_action :authenticate_user
+  skip_before_action :set_current_user
+  before_action :set_attempt, only: [:update, :result]
+  before_action :attempt_check, only: [:update]
 
   def show
     render json: @quiz, serializer: QuizQuestionSerializer, status: :ok
   end
 
-  def create_attempt
+  def create
     @attempt = Attempt.new(quiz: @quiz, user: @standard_user)
     if @attempt.save
-      render json: {notice: "Attempt has been created sucessfully."}, status: :ok
+      render json: {notice: "Attempt has been created sucessfully.", attempt: @attempt}, status: :ok
     else
       render json: {error: @attempt.errors.full_messages}, status: :unprocessable_entity
     end
+  end
+
+  def update
+    @attempt.update(attempt_answer_permitted_params)
+    if @attempt.save
+      render json: {notice: "Attempt has been saved sucessfully."}, status: :ok
+    else
+      render json: {error: @attempt.errors.full_messages}, status: :unprocessable_entity
+    end
+  end
+
+  def result
+    render json: @attempt, status: :ok
   end
 
   private
@@ -34,6 +51,10 @@ class Api::PublicController < ApplicationController
     params.require(:user).permit(:first_name, :last_name, :email).merge(role: :standard, password: 'welcome', password_confirmation: 'welcome')
   end
 
+  def attempt_answer_permitted_params
+    params.require(:attempt).permit(attempt_answers_attributes: [:option_id, :question_id]).merge(submitted: true)
+  end
+
   def set_standard_user
     # creating user if not already present
     @standard_user = User.find_by_email(params[:user][:email])
@@ -42,6 +63,19 @@ class Api::PublicController < ApplicationController
       if !@standard_user.save
         render json: {error: @standard_user.errors.full_messages}, status: :unprocessable_entity
       end
+    end
+  end
+
+  def set_attempt
+    @attempt = Attempt.find_by(id: params[:id])
+    if @attempt.nil?
+      render json: {error: "Attempt id is not valid."}, status: :unprocessable_entity
+    end
+  end
+
+  def attempt_check
+    if @attempt.submitted
+      render json: {error: "User has already attempted this quiz"}, status: :unprocessable_entity
     end
   end
 end
