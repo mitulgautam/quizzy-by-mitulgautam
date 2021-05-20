@@ -7,6 +7,7 @@ class Api::PublicController < ApplicationController
   before_action :set_attempt, only: [:update, :result]
   before_action :attempt_check, only: [:update]
   before_action :validate_options, only: [:update]
+  before_action :set_correct_and_incorrect, only: [:update]
 
   def show
     render json: @quiz, serializer: QuizQuestionSerializer, status: :ok
@@ -53,7 +54,7 @@ class Api::PublicController < ApplicationController
   end
 
   def attempt_answer_permitted_params
-    params.require(:attempt).permit(attempt_answers_attributes: [:option_id, :question_id]).merge(submitted: true)
+    params.require(:attempt).permit(attempt_answers_attributes: [:option_id, :question_id]).merge(submitted: true, correct: @correct, incorrect: @incorrect)
   end
 
   def set_standard_user
@@ -83,6 +84,19 @@ class Api::PublicController < ApplicationController
   def validate_options
     if params[:attempt][:attempt_answers_attributes].length != @attempt.quiz.questions.length
       render json: {error: "Please select options of all questions."}, status: :unprocessable_entity
+    end
+  end
+
+  def set_correct_and_incorrect
+    @correct = 0
+    @incorrect = 0
+    params[:attempt][:attempt_answers_attributes].each do |attempt|
+      question = @attempt.quiz.questions.find_by(id: attempt[:question_id])
+      if attempt[:option_id].to_s == question.options[question.correct_option-1].id.to_s
+        @correct +=1
+      else
+        @incorrect +=1
+      end
     end
   end
 end

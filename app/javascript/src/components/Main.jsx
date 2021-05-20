@@ -23,6 +23,7 @@ import UpdateQuestion from "./Question/UpdateQuestion";
 import AttemptQuiz from "./Quiz/AttemptQuiz";
 import Quiz from "./Quiz/Quiz";
 import ResultQuiz from "./Quiz/ResultQuiz";
+import Reports from "./Report/Report";
 
 const Main = (props) => {
   const [loading, setLoading] = useState(true);
@@ -41,7 +42,7 @@ const Main = (props) => {
     try {
       if (JSON.parse(localStorage.getItem("authEmail")) !== null) {
         const { data } = await authenticationApi.show();
-        userDispatch({ type: "SET_USER", payload: { user: data } });
+        userDispatch({ type: "SET_USER", payload: { user: data.user } });
       }
     } catch (err) {
       logger.error(err);
@@ -65,6 +66,7 @@ const Main = (props) => {
       </section>
       <ToastContainer />
       <Switch>
+        <Route exact path="/report" component={Reports} />
         <Route exact path="/public/:id" component={AttemptQuiz} />
         <Route exact path="/public/:id/play" component={Quiz} />
         <Route exact path="/public/:id/result" component={ResultQuiz} />

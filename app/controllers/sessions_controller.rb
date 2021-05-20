@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_action :authenticate_user, only: [:new, :create, :current_user]
+  skip_before_action :authenticate_user, only: [:new, :create]
 
   def new
   end
@@ -15,9 +15,9 @@ class SessionsController < ApplicationController
     end
   end
 
-  def current_user
-    if @current_user
-      render json: @current_user, status: :ok
+  def user
+    if @current_user.present?
+      render json: @current_user, status: :ok, serializer: UserSerializer
     else
       render json: {errors: ["No user logged in."], notice: "Unauthorised"}, status: :unprocessable_entity
     end

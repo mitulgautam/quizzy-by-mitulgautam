@@ -4,12 +4,13 @@ Rails.application.routes.draw do
     collection do
       post "/login" => "sessions#create"
       get  "/logout" => "sessions#destroy"
-      get  "/user" => "sessions#current_user"
+      get  "/user" => "sessions#user"
     end
   end
 
   resources :quizzes
   resources :questions
+  resources :reports
 
   namespace :api do
     resources :public do
