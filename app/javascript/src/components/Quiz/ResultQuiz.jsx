@@ -16,7 +16,7 @@ const ResultQuiz = ({ match }) => {
     try {
       const {
         data: {
-          attempt: { quiz, attempt_answers },
+          attempt: { quiz, attempt_answers, incorrect, correct },
         },
       } = await attemptApi.result(history.location.state);
       setQuiz(quiz);
@@ -30,12 +30,9 @@ const ResultQuiz = ({ match }) => {
           attempt_option: attempt_answers[i].option_id,
           question_id: attempt_answers[i].question_id,
         });
-        if (
-          question.options[question.correct_option - 1].id ===
-          attempt_answers[i].option_id
-        )
-          setCorrectAnswer(correctAnswer + 1);
-        else setIncorrectAnswer(incorrectAnswer + 1);
+
+        setCorrectAnswer(correct);
+        setIncorrectAnswer(incorrect);
       });
       setQuestionAttempts(tempQuestions);
     } catch (e) {

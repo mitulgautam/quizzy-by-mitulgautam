@@ -20,6 +20,7 @@ const handleSuccessResponse = response => {
 const handleErrorResponse = error => {
   if (error.response?.status === 401) {
     window.location.href = "/";
+    localStorage.setItem("authEmail", JSON.stringify(null));
   }
   Toastr.error(
     error.response?.data?.error ||
