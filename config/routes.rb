@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   resources :quizzes
   resources :questions
+  resources :reports
 
   namespace :api do
     resources :public do

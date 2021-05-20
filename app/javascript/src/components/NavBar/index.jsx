@@ -39,7 +39,7 @@ const NavBar = () => {
             </div>
           </div>
           <div className="flex justify-end h-16 pt-8">
-            {user !== null && <NavItem path="#" name="Reports" />}
+            {user !== null && <NavItem path="/report" name="Reports" />}
             {user !== null && (
               <NavItem
                 path="/dashboard"
