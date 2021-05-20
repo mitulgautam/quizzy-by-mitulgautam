@@ -15,5 +15,6 @@ class User < ApplicationRecord
     end
 
   enum role: [:standard, :administrator]
-  has_many :quizzes
+  has_many :quizzes, dependent: :destroy
+  has_many :attempts, dependent: :destroy
 end

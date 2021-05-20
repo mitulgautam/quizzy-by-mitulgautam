@@ -20,6 +20,9 @@ import history from "common/history";
 import ShowQuiz from "./Quiz/ShowQuiz";
 import CreateQuestion from "./Question/CreateQuestion";
 import UpdateQuestion from "./Question/UpdateQuestion";
+import AttemptQuiz from "./Quiz/AttemptQuiz";
+import Quiz from "./Quiz/Quiz";
+import ResultQuiz from "./Quiz/ResultQuiz";
 
 const Main = (props) => {
   const [loading, setLoading] = useState(true);
@@ -62,6 +65,9 @@ const Main = (props) => {
       </section>
       <ToastContainer />
       <Switch>
+        <Route exact path="/public/:id" component={AttemptQuiz} />
+        <Route exact path="/public/:id/play" component={Quiz} />
+        <Route exact path="/public/:id/result" component={ResultQuiz} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/create-quiz" component={CreateQuiz} />
         <Route exact path="/update-quiz/:id" component={UpdateQuiz} />

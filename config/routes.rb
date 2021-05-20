@@ -10,7 +10,15 @@ Rails.application.routes.draw do
 
   resources :quizzes
   resources :questions
-  resources :public do
+
+  namespace :api do
+    resources :public do
+      collection do
+        post '/' => "public#create"
+        put '/:id' => "public#update"
+        get '/result/:id' => "public#result"
+      end
+    end
   end
 
   root "home#index"

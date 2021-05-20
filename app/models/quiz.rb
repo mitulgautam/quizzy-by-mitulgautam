@@ -7,6 +7,7 @@ class Quiz < ApplicationRecord
   validates :status, presence: true
   enum status: [:unpublished, :published]
   before_validation :create_slug, if: :published?
+  has_many :attempts, dependent: :destroy
 
   private
   def create_slug
