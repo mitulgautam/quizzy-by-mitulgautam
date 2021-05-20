@@ -6,6 +6,7 @@ class Api::PublicController < ApplicationController
   skip_before_action :set_current_user
   before_action :set_attempt, only: [:update, :result]
   before_action :attempt_check, only: [:update]
+  before_action :validate_options, only: [:update]
 
   def show
     render json: @quiz, serializer: QuizQuestionSerializer, status: :ok
@@ -76,6 +77,12 @@ class Api::PublicController < ApplicationController
   def attempt_check
     if @attempt.submitted
       render json: {error: "User has already attempted this quiz"}, status: :unprocessable_entity
+    end
+  end
+
+  def validate_options
+    if params[:attempt][:attempt_answers_attributes].length != @attempt.quiz.questions.length
+      render json: {error: "Please select options of all questions."}, status: :unprocessable_entity
     end
   end
 end
