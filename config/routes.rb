@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     collection do
       post "/login" => "sessions#create"
       get  "/logout" => "sessions#destroy"
-      get  "/user" => "sessions#current_user"
+      get  "/user" => "sessions#user"
     end
   end
 

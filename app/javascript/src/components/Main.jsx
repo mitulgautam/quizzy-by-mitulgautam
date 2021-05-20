@@ -41,7 +41,7 @@ const Main = (props) => {
     try {
       if (JSON.parse(localStorage.getItem("authEmail")) !== null) {
         const { data } = await authenticationApi.show();
-        userDispatch({ type: "SET_USER", payload: { user: data } });
+        userDispatch({ type: "SET_USER", payload: { user: data.user } });
       }
     } catch (err) {
       logger.error(err);
