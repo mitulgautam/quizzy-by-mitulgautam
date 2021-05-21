@@ -9,7 +9,7 @@ export const CreateQuiz = () => {
   const [name, setName] = useState("");
   const history = useHistory();
 
-  const _handleCreateQuiz = async () => {
+  const handleCreateQuiz = async () => {
     setIsLoading(true);
     try {
       const response = await quizApi.create({ quiz: { name } });
@@ -47,7 +47,7 @@ export const CreateQuiz = () => {
           <div className="w-24">
             <Button
               buttonText="Create"
-              onClick={_handleCreateQuiz}
+              onClick={handleCreateQuiz}
               loading={isLoading}
             />
           </div>

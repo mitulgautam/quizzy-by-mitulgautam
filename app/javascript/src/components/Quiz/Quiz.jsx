@@ -96,8 +96,6 @@ const Quiz = ({ match }) => {
                         name={question.id}
                         value={option.id}
                         onChange={(e) => {
-                          // eslint-disable-next-line no-console
-                          console.log(e.target.value);
                           const answer = {
                             question_id: question.id,
                             option_id: e.target.value,

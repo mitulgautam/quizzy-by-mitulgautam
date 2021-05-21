@@ -11,7 +11,7 @@ export const UpdateQuiz = ({ match }) => {
   const id = match.params.id;
   const history = useHistory();
 
-  const _handleUpdateQuiz = async () => {
+  const handleUpdateQuiz = async () => {
     setIsLoading(true);
     try {
       const response = await quizApi.update(id, { quiz: { name } });
@@ -71,7 +71,7 @@ export const UpdateQuiz = ({ match }) => {
           <div className="w-24">
             <Button
               buttonText="Update"
-              onClick={_handleUpdateQuiz}
+              onClick={handleUpdateQuiz}
               loading={isLoading}
             />
           </div>

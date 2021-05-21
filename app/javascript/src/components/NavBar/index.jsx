@@ -10,7 +10,7 @@ const NavBar = () => {
   const { user } = useUserState();
   const userDispatch = useUserDispatch();
 
-  const _handleLogout = async () => {
+  const handleLogout = async () => {
     const response = await authenticationApi.logout();
     if (response.status == 200) {
       authDispatch({
@@ -47,7 +47,7 @@ const NavBar = () => {
               />
             )}
             {user !== null && (
-              <NavItem path="/logout" name="Logout" onClick={_handleLogout} />
+              <NavItem path="/logout" name="Logout" onClick={handleLogout} />
             )}
           </div>
         </div>

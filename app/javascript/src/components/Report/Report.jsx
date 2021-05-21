@@ -3,7 +3,6 @@ import ReportTable from "./ReportTable";
 import PageLoader from "components/PageLoader";
 import reportApi from "apis/report";
 import Button from "components/Button";
-// import downloadjs from "downloadjs";
 import { saveAs } from "file-saver";
 
 const Reports = () => {
@@ -42,12 +41,6 @@ const Reports = () => {
 
   const handleDownload = () => {
     const data = URL.createObjectURL(new Blob([blob]));
-
-    // downloadjs(
-    //   data,
-    //   "report.xlsx",
-    //   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    // );
     saveAs(data, "report.xlsx");
   };
 
