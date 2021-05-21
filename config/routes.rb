@@ -1,4 +1,7 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  mount Sidekiq::Web, at: '/sidekiq'
 
   resources :sessions do
     collection do
@@ -10,7 +13,7 @@ Rails.application.routes.draw do
 
   resources :quizzes
   resources :questions
-  resources :reports
+  
 
   namespace :api do
     resources :public do
@@ -18,6 +21,11 @@ Rails.application.routes.draw do
         post '/' => "public#create"
         put '/:id' => "public#update"
         get '/result/:id' => "public#result"
+      end
+    end
+    resources :reports do
+      collection do
+        get '/download' => "reports#download"
       end
     end
   end

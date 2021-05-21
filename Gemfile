@@ -59,3 +59,10 @@ gem 'react-rails'
 
 # Serializer
 gem "active_model_serializers", "~> 0.8.0"
+
+# generate excel file
+gem 'caxlsx'
+gem 'caxlsx_rails'
+
+# for background process
+gem 'sidekiq', '~> 4.1', '>= 4.1.2'
