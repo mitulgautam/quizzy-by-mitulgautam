@@ -1,6 +1,6 @@
 # README
 
-[![Heroku](https://heroku-badge.herokuapp.com/?app=afternoon-garden-20820)](https://afternoon-garden-20820.herokuapp.com/)
+[![Heroku](https://heroku-badge.herokuapp.com/?app=quizzy-by-mitulgautam)](https://quizzy-by-mitulgautam.herokuapp.com/)
 
 [![CircleCI](https://circleci.com/gh/circleci/circleci-docs.svg?style=svg)](https://circleci.com/gh/circleci/circleci-docs)
 
