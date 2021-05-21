@@ -25,4 +25,4 @@ Things you may want to cover:
 
 - Deployment instructions
 
-- Application URL : https://afternoon-garden-20820.herokuapp.com/
+- Application URL : https://quizzy-by-mitulgautam.herokuapp.com/
