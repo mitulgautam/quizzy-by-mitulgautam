@@ -16,11 +16,11 @@ function Dashboard() {
   const quizDispatch = useQuizDispatch();
   const { quizzes } = useQuizState();
 
-  const _handleCreateQuiz = () => {
+  const handleCreateQuiz = () => {
     window.location.href = "/create-quiz";
   };
 
-  const _handleConfirmDelete = async () => {
+  const handleConfirmDelete = async () => {
     setIsDelete(true);
     try {
       const { data } = await quizApi.destroy(selectedQuizID);
@@ -72,7 +72,7 @@ function Dashboard() {
             <div className="text-center md:text-right mt-4 md:flex md:justify-end">
               <button
                 disabled={isDelete}
-                onClick={_handleConfirmDelete}
+                onClick={handleConfirmDelete}
                 className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-red-200 text-red-700 rounded-lg font-semibold text-sm md:ml-2 md:order-2"
               >
                 {isDelete ? <div>Deleting</div> : <div>Delete</div>}
@@ -94,7 +94,7 @@ function Dashboard() {
         <Button
           type="button"
           buttonText="Add new quiz"
-          onClick={_handleCreateQuiz}
+          onClick={handleCreateQuiz}
           loading={false}
         />
       </div>

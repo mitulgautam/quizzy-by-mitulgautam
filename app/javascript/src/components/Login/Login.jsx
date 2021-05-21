@@ -14,7 +14,7 @@ const Login = ({ history }) => {
   const authDispatch = useAuthDispatch();
   const userDispatch = useUserDispatch();
 
-  const _handleSubmitButton = async (e) => {
+  const handleSubmitButton = async (e) => {
     e.preventDefault();
     if (email === "" && password === "") {
       Toastr.error("Email and Password is blank.");
@@ -55,7 +55,7 @@ const Login = ({ history }) => {
         <h3 className="font-bold text-2xl text-gray-600 p-4">Login</h3>
       </section>
       <section className="mt-10">
-        <form className="flex flex-col" onSubmit={_handleSubmitButton}>
+        <form className="flex flex-col" onSubmit={handleSubmitButton}>
           <div className="mb-6 pt-3 rounded bg-gray-200">
             <label
               htmlFor="email"
@@ -92,7 +92,7 @@ const Login = ({ history }) => {
             type="submit"
             buttonText="Submit"
             loading={isLoading}
-            onClick={_handleSubmitButton}
+            onClick={handleSubmitButton}
           />
         </form>
       </section>

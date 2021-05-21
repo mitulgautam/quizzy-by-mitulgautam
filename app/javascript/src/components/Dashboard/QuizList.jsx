@@ -17,7 +17,7 @@ const QuizList = ({
     tableInstance;
   const history = useHistory();
 
-  const _handleDeleteQuiz = (row) => {
+  const handleDeleteQuiz = (row) => {
     setSelectedQuizID(row.original.id);
     setModalIsOpen(true);
   };
@@ -90,7 +90,7 @@ const QuizList = ({
                               </div>
                               <div className="pl-4">
                                 <button
-                                  onClick={() => _handleDeleteQuiz(row)}
+                                  onClick={() => handleDeleteQuiz(row)}
                                   className=" hover:bg-gray-200 text-red-800 font-medium px-4 rounded inline-flex items-center"
                                 >
                                   <svg
