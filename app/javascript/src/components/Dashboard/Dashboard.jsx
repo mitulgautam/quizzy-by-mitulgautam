@@ -24,8 +24,6 @@ function Dashboard() {
     setIsDelete(true);
     try {
       const { data } = await quizApi.destroy(selectedQuizID);
-      // eslint-disable-next-line no-console
-      console.log(data.quizzes);
       quizDispatch({ type: "UPDATE_QUIZ", payload: { quizzes: data.quizzes } });
     } catch (err) {
       logger.error(err);
